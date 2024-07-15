@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <section>
+        <h1>StopWatch</h1>
+        <div id="display-time">
+            0 : 0 : 0
+        </div>
+        <div id="btns">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+        </div>
+    </section>
+    
+    <script>
+        let [hour, min, sec] = [0, 0, 0];
+        const start = document.querySelector("#start");
+        const pause = document.querySelector("#pause");
+        const reset = document.querySelector("#reset");
+        const displayTime = document.getElementById("display-time");
+        let intervalId;
+        let isRunning = false;
+        let isPaused = false;
+    
+        displayTime.innerHTML = hour + " : " + min + " : " + sec;
+    
+        start.addEventListener("click", function () {
+            if (!isRunning) {
+                intervalId = setInterval(() => {
+                    sec++;
+                    if (sec === 60) {
+                        sec = 0;
+                        min++;
+                        if (min === 60) {
+                            min = 0;
+                            hour++;
+                        }
+                    }
+                    displayTime.innerHTML = hour + " : " + min + " : " + sec;
+                }, 1000);
+                isRunning = true;
+                isPaused = false;
+                pause.innerHTML = "Pause";
+            }
+        });
+    
+        pause.addEventListener("click", function () {
+            if (isRunning) {
+                if (!isPaused) {
+                    clearInterval(intervalId);
+                    pause.innerHTML = "Resume";
+                    isPaused = true;
+                } else {
+                    intervalId = setInterval(() => {
+                        sec++;
+                        if (sec === 60) {
+                            sec = 0;
+                            min++;
+                            if (min === 60) {
+                                min = 0;
+                                hour++;
+                            }
+                        }
+                        displayTime.innerHTML = hour + " : " + min + " : " + sec;
+                    }, 1000);
+                    pause.innerHTML = "Pause";
+                    isPaused = false;
+                }
+            }
+        });
+    
+        reset.addEventListener("click", function () {
+            clearInterval(intervalId);
+            hour = 0;
+            min = 0;
+            sec = 0;
+            displayTime.innerHTML = hour + " : " + min + " : " + sec;
+            isRunning = false;
+            isPaused = false;
+            pause.innerHTML = "Pause";
+        });
+    
+    
+
+//////////////////PRACTICE
+// let x = true;
+// if (!x) {
+//     console.log("false") 
+// } else {
+//     console.log("true")
+// }
+
+// console.log(!(1 & 1))
+    </script>
+</body>
+
+</html>
